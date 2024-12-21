@@ -1,0 +1,243 @@
+Docker Certification Training 
+
+14th Dec 2024 - Day-0
+Weekends - 7AM - 10AM IST
+
+
+Actual Training Start from 21st Dec. 2024 - 7AM-10AM IST
+
+Lab Environment 
+
+
+	Create AWS Cloud Free Tier Account
+
+	https://aws.amazon.com/console/
+
+		- Active Email_ID, Mobile Number and Credit/Debit(International Transaction Enabled) 
+		
+		- Account Type : Basic Free Account 
+		
+		- 12 Months free - tier account 
+		
+		
+	GitHub Repository Access 
+	
+	https://github.com/
+	
+########################
+Day - 1  21st Dec. 2024
+########################
+
+	- Lab Environments 
+		AWS Cloud / Azure Cloud 
+			- To Create VMs and install Docker Engine 
+			
+	- GitHub Account 
+		https://github.com/
+		
+	- DockerHub Account (Container Registry)
+		https://hub.docker.com/
+		
+Introduction to Containerization :::
+
+	Containerization : 
+			- It is a process of packaging the Application along with its dependencies.!
+	
+	What is Virtual Machines?
+	
+		- VMs are considered as Hardware Level Virtualization.
+		- VMs are created using Hypervisor.
+		- VMs are used to run the Operator System.
+		- VMs will be up and running, even if there no Active Application/Task.
+		- VMs consume more time and space to start.
+	
+	What is Container?
+	
+		- Containers are considered as OS Level Virtualization.
+		- Containers are created using Container Engine.
+		- Containers are used to run the Application/Task. Container are not used to run any operator System.
+		- Containers will go to exit state if there no Active Application/Task.
+		- Containers consume less time and space to start when compared to VMs.
+
+		- Kernel - Core of any Operating System
+			- Namespace & CGroup
+			
+		- Containers will run in its own dedicated and isolated Address space	
+		
+		Containers are just to reduce the no. of VMs 
+		We cannot completely eliminate VM.
+		
+	
+	Architecture:
+	
+		Jenkins :::
+			
+			Master/Slave Architecture :
+			
+			Jenkins_Master(VM) 		: 	Create Jenkins Jobs & Schedule 
+			
+				Jenkins_Slaves(VM) 	: 	Execute the Builds
+				
+			Jenkins_Master 		:: Jenkins CICD Pipeline Projects.
+			
+				Jenkins_Slave1	: Install jdk - Java Application Build 
+				Jenkins_Slave2	: Install sdk - .Net Application Build
+				Jenkins_Slave3	: Python
+				Jenkins_Slave4	: NodeJS
+				Jenkins_Slave5	: Ruby
+				Jenkins_Slave6	: Angular
+				
+			Using Container:
+			
+			Jenkins_Master(VM)		:: Jenkins CICD Pipeline Projects.
+			
+				Jenkins_Slave(VM)	: 
+						Install Container Engine 
+							C1 	: Install jdk - Java Application Build 
+							C2	: Install sdk - .Net Application Build
+							C3  : Python
+							C4  : NodeJS
+							C5  : Ruby
+							C6  : Angular
+						
+		
+		
+	Containerization : 
+			- It is a process of packaging the Application along with its dependencies.!
+
+		
+		
+	Environment:
+	
+		Java Application :
+		
+			3-Tier 	Appli Service - sign_module
+			
+				- Front-End Layer 		C1
+				- Application Layer 	C2 
+				- BackEnd - DataBase	C3
+			
+
+	Containers ::
+		
+		Infra-Structure Perspective :
+			
+			- Containers are used to reduce the no. of VMs and reduce the Infra-Structure Cost.
+			Master/Slave Architecture :
+			
+				Jenkins_Master(VM) 		: 	Create Jenkins Jobs & Schedule 
+				
+					Jenkins_Slaves(VM) 	: 	Execute the Builds
+					
+				Jenkins_Master 		:: Jenkins CICD Pipeline Projects.
+				
+					Jenkins_Slave1	: Install jdk - Java Application Build 
+					Jenkins_Slave2	: Install sdk - .Net Application Build
+					Jenkins_Slave3	: Python
+					Jenkins_Slave4	: NodeJS
+					Jenkins_Slave5	: Ruby
+					Jenkins_Slave6	: Angular
+					
+				Using Container:
+				
+				Jenkins_Master(VM)		:: Jenkins CICD Pipeline Projects.
+				
+					Jenkins_Slave(VM)	: 
+							Install Container Engine 
+								C1 	: Install jdk - Java Application Build 
+								C2	: Install sdk - .Net Application Build
+								C3  : Python
+								C4  : NodeJS
+								C5  : Ruby
+								C6  : Angular
+	
+		Developers' Perspective :
+		
+			- Developers usd the Docker to package the Application along with its dependencies and deploy to the target Environments!
+			
+			Eg.: 
+			
+				mywebapp.war_v1.0
+				
+			Deploy mywebapp.war_v1.0 to QA,UAT,PROD
+			
+			
+			Environments 
+			
+				Dev :
+				
+					java app code - using jdk11
+					Unit Test -> Tomcat WAS - tomcat_v8
+				
+				Application Build :
+
+					It is a process of compiling the source code & Creating Artifacts - Binaries (*.war/*.jar/*.exec)
+					mywebapp.war_v1.0
+					
+					Package the Application Artifacts(binaries-*.war) with all its dependencies
+					
+					Docker CE : Package --> Image 
+						
+						mywebapp.war_v1.0	
+						
+						Create Application Container Image : (mywebapp.war_v1.0,jdk11,tomcat8) - mywebappimg:v1.0 
+						
+						Publish the Application Container Image (mywebappimg:v1.0) to Container Registry.
+						
+						Deployed (mywebappimg:v1.0) to the Target Environments
+						
+				
+				Build 		mywebapp.war_v1.0
+				
+				QA (VM)			mywebapp.war_v1.0			(mywebappimg:v1.0) 
+							--> Container Engine 
+									- Run as Container							
+				
+				UAT			mywebapp.war_v1.0
+				
+				PROD 		mywebapp.war_v1.0
+		
+		
+			Application Build 				# Application Build Tools like Maven/Gradle - Create *.war file
+			
+			Application Image Build 		# Docker Engine and Docker Cli Commands		- Create Image
+		
+			
+	Terminologies :::
+	
+		- Container Engine ::
+			- Is used to Create and Manage the Container Images and Containers.
+				
+		- Container Images ::
+			- Images are the static file which defines the properties of Application and its dependencies. 
+			- Images are Non-Executable
+			- Images composed of various Layers and it can be created using Dockerfile Instruction.
+			
+		- Container :
+			- Containers are the executable units of Container Image
+			- Containers are used to run the applications that are defined in the container images.
+			
+		- Container Registry :		
+			- Container Registry is used store and manage the Container Images.
+			- DockerHub - https://hub.docker.com/	
+			
+		- Container Repositories :
+			- Container Repositories are the subset of Container Registry
+			
+			Eg.: 
+			github 			Docker-Hub_Registry
+				repo1			Docker-hub_Repository1
+				repo2			Docker-hub_Repository2	
+
+		
+		Managed Services from Cloud Service Providers
+		
+			AWS 	- ECS,ECR,EKS
+			
+			Azure	- ACS,ACR,AKS 
+			
+			GCP 	- GCE,GCR,GKE
+	
+Next ::
+	
+	Working with Docker :
