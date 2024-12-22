@@ -241,3 +241,202 @@ Introduction to Containerization :::
 Next ::
 	
 	Working with Docker :
+
+
+
+########################
+Day - 1  22nd Dec. 2024
+########################
+
+	Working with Docker ::
+	
+		AWS Cloud - Create EC2 Instance - Ubuntu
+		
+		AWS Free Account :
+		
+			https://aws.amazon.com/console/
+		
+
+		- Active Email_ID, Mobile Number and Credit/Debit(International Transaction Enabled) 
+		
+		- Account Type : Basic Free Account 
+		
+		- 12 Months free - tier account 
+			
+			
+		Upon Registration, Login to AWS Console as a root user using Email_ID
+		
+		1 VM --> 750 Hrs/Month 
+		
+		10 VMs --> 75Hrs/Month 
+		
+		
+		
+		VMs are refered as EC2 Instances 
+		
+		EC2 Instances Dashboard!
+		
+		
+		Launch EC2 Instance - ubuntu v22.04 AMI
+		
+		VM1 ------------------> VM2 
+		
+		User Authentication ::
+		
+			- password 
+			- token 
+			- keys --
+			
+			
+		Connect to EC2 Instance :
+		
+			- EC2 Instance Connect -- using web browser.
+			
+			- Using SSH Agent	
+				--> Putty
+				--> MoboXterm			# https://mobaxterm.mobatek.net/download-home-edition.html
+										# Choose MobaXterm Home Edition!
+										# Download, Extract and Run the Exec to Install MobaXterm.
+				
+					- Host Name 
+					- User Name 
+					- *.pem			# Private Key
+					
+			- Terminal
+			
+		Login to AWS EC2 Instance :
+		
+		sudo -i 
+		
+		sudo apt update -y
+		
+		Install Docker!				# https://docs.docker.com/engine/install/
+		
+		sudo apt install docker.io -y
+		
+	Use Docker Cli Command to interact with Docker Engine
+		
+		docker --version
+		
+		docker images 				# Get the list of Container Images 
+ 		
+		docker ps 					# Get the list of Active/Running Containers
+
+		docker ps -a 				# Get the list of all Active/Running and stopped Containers
+		
+		docker pull					# Download the Container Image from Container Registry(DockerHub)		
+		
+		docker pull <image_name>
+		
+		
+		docker run <image_name>		# To Create and run the Container based on the Image Name
+		
+		Three Modes of Container Execution/Run :
+		
+			- Foreground Mode/ Attached Mode 		
+						# Terminal will be used by container, till the process completes, that termial will be blocked by that container
+						
+					docker run <image_name>
+			
+			- Background Mode / Detached Mode
+						# Runs in background as a background process.
+						
+					docker run -d <image_name>
+					
+			- Interactive Mode 
+						# Access the Container in Interactive Mode 
+						
+					docker run -it <image_name>
+					
+					exit						To Exit from container					
+					
+			docker stop <container_id>
+			
+			docker start <container_id>
+			
+			docker exec -it <container_id> bash		# To login to the running Container.
+			
+			
+			Delete/Remove :
+			
+				docker rm <container_id> <container_id> 		# Remove the Container
+				
+				docker rmi <image_name>							# Remove the Image 
+				
+				docker rmi -f <image_name>						# Force Remote the Image 
+		
+		
+			docker inspect <object_name>	
+			
+				docker inspect <container_id> 
+				docker inspect <image_name>
+				docker inspect <volume>
+				
+			docker history <image_name>
+    1  apt update -y
+    2  clear
+    3  apt install docker.io -y
+    4  docker --version
+    5  clear
+    6  docker images
+    7  docker ps
+    8  docker ps -a
+    9  clear
+   10  docker images
+   11  docker pull centos
+   12  docker images
+   13  docker ps
+   14  docker ps -a
+   15  docker pull alpine
+   16  docker images
+   17  clear
+   18  docker images
+   19  docker run centos
+   20  docker images
+   21  docker ps
+   22  docker ps -a
+   23  docker run alpine
+   24  docker ps
+   25  docker ps -a
+   26  clear
+   27  docker ps
+   28  docker ps -a
+   29  docker images
+   30  clear
+   31  docker ps
+   32  docker ps -a
+   33  docker run centos sleep 10
+   34  docker run centos sleep 20
+   35  docker run -d centos sleep 20
+   36  docker ps
+   37  clear
+   38  docker images
+   39  docker ps -a
+   40  docker run -it centos bash
+   41  docker run centos sleep 200
+   42  clear
+   43  docker run --name=dummy centos
+   44*
+   45  docker images
+   46  docker ps
+   47  docker rmi centos
+   48  docker rm 162eec0bd282
+   49  docker ps -a
+   50  docker rm 91831b0d2c31 d6e0555e480f
+   51  docker images
+   52  docker ps -a
+   53  docker rmi centos
+   54  docker rmi -f centos
+   55  docker images
+   56  clear
+   57  docker ps -a
+   58  docker inspect 6519a20a5337
+   59  docker inspect ubuntu
+   60  clear
+   61  docker history ubuntu
+   62* docker
+   63  docker history 6519a20a5337
+   64  clear
+   65  docker run -it ubuntu bash
+   66  clear
+   67  history		
