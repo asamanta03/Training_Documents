@@ -245,7 +245,7 @@ Next ::
 
 
 ########################
-Day - 1  22nd Dec. 2024
+Day - 2  22nd Dec. 2024
 ########################
 
 	Working with Docker ::
@@ -440,3 +440,175 @@ Day - 1  22nd Dec. 2024
    65  docker run -it ubuntu bash
    66  clear
    67  history		
+
+
+########################
+Day - 3  4th Jan. 2024
+########################
+
+	Working with Various Types of Images
+	
+	OS Based Images 
+	
+	WAS Based Images 
+	
+	
+	Docker Networking :
+	
+	Port Mapping / Port Binding 
+	
+		- Is used map the container port and the host port
+		- This helps to container to expose to internet.
+		- Enable to Host Port and map it with Container Port.
+		
+		Eg.: 
+		
+			-p <host_port>:<container_port>
+			
+		C1 	- 8080(container_port)		--> 8089(host_port)
+		C2	- 3000(container_port)		--> 8088(host_port)
+		C3	- 8080(container_port)		--> 8087(host_port)
+		C4	- 8080(container_port)		--> 8086(host_port)
+		C5	- 8080(container_port) 		--> 8085(host_port)
+		
+		
+			VM -> Tomcat WAS 
+			
+				- Install Tomcat = 8080 at VM level
+				
+		docker run -it -p 8088:8080 tomcat:8.0
+		
+	
+	Container Storage / Volumes :	
+	
+		3 - Tier Application Services :
+		
+		E_Commerce Portal :
+		
+		Sign_In-Page :
+		
+		- 3 - Tier Application Services
+		
+			- Front-End				# User Interaction 	--> C1 
+				
+			- Application Layer		# Business Logics 	--> C2 
+			
+			- Back-End Layer		# Data_Base			--> C3 
+	
+		Stateless Application :			
+		
+		Stateful Application :
+		
+			Volumes 
+			
+			Persistant Volumes. 
+			
+				- It is used to maintain the data even after lifetime of Containers
+				
+				
+		Create Docker Volume :::
+		
+			docke volume list 
+			
+			docker volume create dc-vol1
+			
+			docker volume inspect dc-vol1	
+			
+			docker run -it --mount source=dc-vol1,destination=/dc-vol1 ubuntu bash
+			
+			
+
+	Create Container Images ::::
+	
+	
+		- docker commit 			# used by the Admins to prepare server templates 
+		
+				==> Create any New-Container Image based on the exist Container reference.
+				
+				Syntax:
+					docker commit <Existing_Container_ID> <Container_Repository_Name><New_Image_Name>:<tag_name>
+		
+		
+					docker commit e9dac7997b1e loksaieta/dcp-build-env:v1.0
+					
+					docker commit e9dac7997b1e team1/dcp-build-env:v1.0
+					
+					docker commit e9dac7997b1e team2/dcp-build-env:v1.0
+		
+				VM : Run Tomcat WAS 
+				
+					ubuntu - OS
+					install jdk 
+					setup environment varible - JAVA_HOME 
+					install tomcat - 8080 port 
+					start tomcat service 
+					
+		- docker build 				# used by the developers to prepare application Images 
+		
+				==> To create a new Container Image based on the Dockerfile reference.
+				==> Dockerfile composed of Instructions to Create Docker Container Images
+				==> Application Developers create the Dockerfile and update in the Source Code Repository. 
+
+				1. Create Dockerfile 
+				
+				Syntax :
+				
+					docker build -t <Container_Repository_Name><New_Image_Name>:<tag_name> . 	"." Denotes the Dockerfile reference.	
+
+   65  docker images
+   66  docker ps -a
+   67  clear
+   68  docker images
+   69  docker run -it tomcat:8.0 bash
+   70  docker run -it -p 8088:8080 tomcat:8.0
+   71  clear
+   72  docker volume list
+   73  docker volume create dc-vol1
+   74  docker volume list
+   75  clear
+   76  docker volume list
+   77  docker volume inspect dc-vol1
+   78  cd /var/lib/docker/volumes/
+   79  ls
+   80  cd dc-vol1/
+   81  ls
+   82  clear
+   83  cd _data/
+   84  pwd
+   85  docker images
+   86  docker ps -a
+   87  clear
+   88  docker ps -a
+   89  docker run -it ubuntu bash
+   90  docker run -it --mount source=dc-vol1,destination=/dc-vol1 ubuntu bash
+   91  docker ps -a
+   92  docker rm e5d418299181
+   93  docker run -it --mount source=dc-vol1,destination=/dc-vol1 ubuntu bash
+   94  docker exec c02992fc7b42 -it --mount source=dc-vol1,destination=/dc-vol1 bash
+   95  docker start c02992fc7b42
+   96  docker exec c02992fc7b42 -it --mount source=dc-vol1,destination=/dc-vol1 bash
+   97  docker exec -it c02992fc7b42 --mount source=dc-vol1,destination=/dc-vol1 bash
+   98  clear
+   99  cd ~
+  100  clear
+  101  docker ps
+  102  docker exec -it c02992fc7b42 bash
+  103  docker ps
+  104  docker stop c02992fc
+  105  docker ps
+  106  docker ps -a
+  107  clear
+  108  docker ps -a
+  109  docker images
+  110  docker commit e9dac7997b1e loksaieta/dcp-build-env:v1.0
+  111  docker images
+  112  docker run -it loksaieta/dcp-build-env:v1.0 bash
+  113  clear
+  114  docker images
+  115  docker run -it loksaieta/dcp-build-env:v1.0 bash
+  116  docker ps
+  117  docker ps -a
+  118  docker start ad55358144f2
+  119  docker log ad55358144f2
+  120  docker logs ad55358144f2
+  121  history
