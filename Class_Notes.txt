@@ -612,3 +612,739 @@ Day - 3  4th Jan. 2024
   119  docker log ad55358144f2
   120  docker logs ad55358144f2
   121  history
+
+
+
+########################
+Day - 4  5th Jan. 2024
+########################
+
+	- Docker Build ::::
+	
+		- docker build 				# used by the developers to prepare application Images 
+		
+				==> To create a new Container Image based on the Dockerfile reference.
+				==> Dockerfile composed of Instructions to Create Docker Container Images
+				==> Application Developers create the Dockerfile and update in the Source Code Repository. 
+
+				1. Create Dockerfile 
+				
+				Syntax :
+				
+					docker build -t <Container_Repository_Name><New_Image_Name>:<tag_name> . 	"." Denotes the Dockerfile reference.
+
+
+			CICD Pipelines : ==> --> jenkins/github actions/gitlab-ci/az-pipelines/aws code-pipeline / Bamboo
+			
+				Dev Environment:
+					- Create Source Code, Dockerfile
+					- Commit the Source Code to Source Code Repositories(Github/Gitlab/Az-Repo/AWS-CodeCommit)
+				Build Environment
+					- Application Build 		- Compile the Source Code & Create Artifacts (*.war)		- App Build Tools, SRC_Code
+					- Application Image Build 	- Build Application Image using Docker (*.war,Dependencies) - Dockerfile
+					- Push the Application Container Image to Container Registry. 
+				Target - QA/UAT/PROD Environments
+					- Pull Application Container Image from Container Registry. 
+					
+			Webpage - 
+			
+				- Various Test Scenarios ???
+				
+				- Test Environments
+				
+					webpage --> 
+
+			
+			Dockerfile is composed of various Instructions :
+			
+				1. Create Dockerfile
+
+				vi Dockerfile
+				
+				FROM ubuntu 
+				RUN apt update -y 
+				RUN apt install git -y 
+				RUN apt install maven -y
+				
+				docker build -t <Container_Repository_Name><New_Image_Name>:<tag_name> . 	"." Denotes the Dockerfile reference.		
+
+				Eg.: 
+				
+				docker build -t loksaieta/dcp-build-env:v1.1 .
+				
+				Docker File Instructions :::
+				
+				FROM 									# To Identify the Base Image
+				RUN 									# To run the package manager
+				COPY 									# To Copy the file from host volume to container volume
+				CP 										# To Copy the file within the container volumes 
+				ADD 									# To Copy the file from Host Volume as well as from URL
+				ENV 									# To define the Environment Variable 
+				ARG 									# To pass Arguements to the Steps in Dockerfile 
+				EXPOSE									# To Define the Container Port 
+				WORKDIR									# To set the current working directory within the Container 
+				CMD										# To set the default start-up command to the container 
+														  This Command can be changed at run-time.
+				ENTRYPOINT								# To set the default start-up command to the container 
+														  This Command cannot be changed at run-time.			
+					
+				Application Artifact ==> mywebappsv1.war_SNAPSHOT_v1.0
+				
+				Application config File / Properties.file based on the Target Environment
+				
+				QA 
+						
+						
+						docker run -d centos sleep 20 
+						
+						FROM centos 
+						ENTRYPOINT "sleep"
+						CMD 20
+						
+						docker run -d centos 
+						docker run -d centos
+						
+					vi Dockerfile
+					
+					FROM tomcat:8.0
+					COPY target/*.war /usr/local/tomcat/webapps
+					EXPOSE 9090
+					
+			CICD Pipelines : ==> --> jenkins/github actions/gitlab-ci/az-pipelines/aws code-pipeline / Bamboo
+			
+				Dev Environment:
+					- Create Source Code, Dockerfile
+					- Commit the Source Code to Source Code Repositories(Github/Gitlab/Az-Repo/AWS-CodeCommit)
+				Build Environment
+					- Application Build 		- Compile the Source Code & Create Artifacts (*.war)		- App Build Tools, SRC_Code
+					- Application Image Build 	- Build Application Image using Docker (*.war,Dependencies) - Dockerfile
+					- Push the Application Container Image to Container Registry. 
+				Target - QA/UAT/PROD Environments
+					- Pull Application Container Image from Container Registry. 
+					
+			Push the Images to DockerHub :
+			
+			
+			- Login to DockerHub thru docker cli using DockerHub Login ID and Access Token 
+				
+				
+				- Create Access Token in DockerHub 
+				
+					- docker login -u <login_id>
+				
+					- Enter the Access Token 
+					
+					Eg.: 
+					
+						docker login -u lokssaaieta
+						
+						dsdfgsdfgdfgsdfg
+						
+						
+			- docker push <image_name> 
+			
+				Eg.: 
+				
+					docker push loksaieta/dcp-build-env:v1.0
+				
+				docker run --name=devuser1 ubuntu
+
+			vi Dockerfile
+			
+			FROM tomcat:8.0
+			COPY target/*.war /usr/local/tomcat/webapps
+			EXPOSE 9090
+
+
+		CICD - Pipeline Stages :
+		
+			Stage1: SCM_Checkout 
+					git clone "https://github.com/Edu-Docker-Cert/java-mvn-springbootapp.git"
+			
+			Stage2: Application_Build 
+					mvn "clean package"
+					
+						# mvn package -> compile, test, create artifacts(*.war) 
+						# mvn test 	  -> compile, test
+						# mvn compile -> compile 
+			
+			Stage3: Application Container Image Build 
+					docker Build <> .
+				
+				docker run -it -p 9090:8080 loksaieta/appsv1:v1.0
+	
+	
+	Docker :::
+						
+	Container Orchestration Tools ::::
+
+		--> Is to orchestrate and ensure high availability of Containers 
+		
+		
+		
+		--> docker compose 	:::
+		
+				- Docker Compose is an extension to Docker Engine.
+				- Is used to run multiple Containers as a Service.
+				- Create a manifest file using *.yaml Script
+		
+		--> docker swarm / kubernetes  :::
+				- To Ensure high availabililty
+				
+				- Docker Swarm :				
+					- To Ensure high availabililty by creating replicas of containers					
+					- Auto-Scaling is not support in Docker Swarm 
+					- Load-Balancing is not support in Docker Swarm 		
+		
+				- Kubernetes :
+					- To Ensure high availabililty by creating replicas of containers
+					- Auto-Scaling
+					- Load-Balancing
+
+					
+		--> docker networking 
+				- Port Mapping / Binding 
+				- Container to Container Communication 
+
+
+		
+		E_Commerce Portal :
+		
+		Sign_In-Page :
+		
+		- 3 - Tier Application Services
+		
+			- Front-End				# User Interaction 	--> C1.1,C1.2,C1.3 
+				
+			- Application Layer		# Business Logics 	--> C2.1,C2.2,C2.3 
+			
+			- Back-End Layer		# Data_Base			--> C3.1,C3.2,C3.3  
+			
+			
+		Production Environments:
+		
+			Production Server1,2,3,4,5
+	
+			C1.1,C1.2,C1.3 
+
+
+  145  docker images
+  146  pwd
+  147  mkdir docker-contents
+  148  cd docker-contents/
+  149  vi Dockerfile
+  150  docker build -t loksaieta/dcp-build-env:v1.1 .
+  151  docker images
+  152  docker history loksaieta/dcp-build-env:v1.1
+  153  docker history ubuntu
+  154  docker ps
+  155  docker ps -a
+  156  clear
+  157  docker ps -a
+  158  docker exec -it c747f7c2a375 bash
+  159  docker start c747f7c2a375
+  160  docker exec -it c747f7c2a375 bash
+  161  docker images
+  162  clear
+  163  docker images
+  164  echo $PATH
+  165  docker login -u lokdfsdfsd
+  166  docker push loksaieta/dcp-build-env:v1.0
+  167  docker ps -a
+  168  clera
+  169  clear
+  170  docker ps -a
+  171  docker rm ad55358144f2 5dd530a7aa36 e9dac7997b1e c02992fc7b42 20855a5cccaa 1b033a2d6b46 f13ea1121c21 c747f7c2a375
+  172  docker ps
+  173  docker stop c747f7c2a375
+  174  docker rm c747f7c2a375
+  175  docker ps
+  176  docker ps -a
+  177  docker images
+  178  docker run --name=devuser1 ubuntu
+  179  docker ps -a
+  180  clear
+  181  git --version
+  182  mvn --version
+  183  cd ~
+  184  apt update -y
+  185  apt install openjdk-17-jre -y
+  186  java --version
+  187  apt install maven -y
+  188  mvn --version
+  189  ls
+  190  mkdir project1
+  191  cd project1/
+  192  git clone https://github.com/Edu-Docker-Cert/java-mvn-springbootapp.git
+  193  ls
+  194  cd java-mvn-springbootapp/
+  195  ls
+  196  cat Dockerfile
+  197  mvn clean package
+  198  ls
+  199  cd src/
+  200  ls
+  201  cd test/
+  202  ls
+  203  cd ..
+  204  pwd
+  205  ls
+  206  cd target/
+  207  ls
+  208  docker images
+  209  cd ..
+  210  pwd
+  211  cat Dockerfile
+  212  pwd
+  213  docker build -t loksaieta/appsv1:v1.0 .
+  214  docker images
+  215  clear
+  216  docker images
+  217  docker run -it loksaieta/appsv1:v1.0 bash
+  218  docker run -it -p 9090:8080 loksaieta/appsv1:v1.0 bash
+  219  docker run -it -p 9090:8080 loksaieta/appsv1:v1.0
+  220  clear
+  221  history
+
+
+	
+########################
+Day - 5  11th Jan. 2024
+########################	
+	
+	
+	Automate Docker Application build using Build Orchestration Tools :
+	
+		CICD - Pipeline Stages :
+		
+			Stage1: SCM_Checkout 
+					git clone "https://github.com/Edu-Docker-Cert/java-mvn-springbootapp.git"
+			
+			Stage2: Application_Build 
+					mvn "clean package"
+					
+						# mvn package -> compile, test, create artifacts(*.war) 
+						# mvn test 	  -> compile, test
+						# mvn compile -> compile 
+			
+			Stage3: Application Container Image Build 
+					docker Build <> .
+				
+				docker run -it -p 9090:8080 loksaieta/appsv1:v1.0
+				
+				
+				
+	CI/CD Pipeline :::
+	
+		Continuous Integration / Continuous delivery/Deployment
+
+
+	CI/Cd 
+	
+	CI/CD 
+	
+	Build Orchestration Tools :::
+	
+		- Jenkins 
+		- Azure Pipelines
+		- gitlab-ci 
+		- github Actions 
+		- AWS CodePipelines 
+		- Bamboo
+		
+	
+	1. Source Code Repository 
+	
+	2. Application Build Process & Dependencies 
+	
+	3. Application Image Build 
+	
+	4. Push the Application Image to Container Registry 
+	
+	5. Deploy to Kubernetes Cluster(Target Environment - QA/UAT/PROD)
+	
+	
+	Jenkins :::
+	
+	Architecture of Build Orchestration Tools ::
+	
+		- Master/Slave Architecture :::		
+		
+		Jenkins_Master :	Used Create Jenkins CI/CD Pipeline Projects & Schedule to run in the Build environment(Jenkins  SlaveNodes)	
+		
+			Jenkins_Slave1(Build Environment)	: 	Used to build Application Build and Image Build
+													Push the Application image to Container Registry
+
+
+
+		Tools :		
+		
+			Jenkins_Master 							:: Install jdk/git/jenkins				
+				Jenkins_Slave1(Build Environment)	:: Install jdk/git/maven/Docker Engine		
+
+
+		Environments :::
+		
+			DEV 
+			
+			Build
+			
+			Target Environments :(Docker Swarm/Kubernetes)
+				Test 				
+					QA 					
+					UAT 
+		
+				Prod 					
+					Prod_Servers
+					
+					
+	Architecture of Container Orchestration Tool :::
+	
+		Production Environments: LIVE 
+		
+			Production Server1,2,3,4,5
+			
+			
+		Kubernetes/Docker Swarm :
+		
+			Kubernetes Master_Node :	Used to Prepare the Pods(Containers) & Schedule the deployments.
+			
+				Worker_Node1,2,3,4,5(Target_Server)
+			
+			
+		Non-Prod Kubernetes Cluster					
+
+			Kubernetes Master_Node :	Used to Prepare the Pods(Containers) & Schedule the deployments.
+			
+				Worker_Node1,2,3,4,5(Target_Server - QA/UAT)			
+		
+		
+		Prod Kubernetes Cluster 
+			
+			Kubernetes Master_Node :	Used to Prepare the Pods(Containers) & Schedule the deployments.
+			
+				Worker_Node1,2,3,4,5(Target_Server - LIVE)
+				
+				
+		End-to-End CI/CD Pipeline ::
+			
+			1. Source Code Repository 
+			
+			2. Application Build Process & Dependencies 
+			
+			3. Application Image Build 
+			
+			4. Push the Application Image to Container Registry 
+			
+			5. Deploy to Kubernetes Cluster(Target Environment - QA/UAT/PROD)		
+
+
+
+	Servers ::
+	
+		Create :
+		
+			Jenkins_Master 				::	Used Create Jenkins CI/CD Pipeline Projects & Schedule to run in the Build environment		
+				Jenkins_Slave1 			::  Used to build Application Build and Image Build & Publish the Images to Container Registry
+				
+			Kubernetes_Master 			::	Prepare and Schedule the Pods(Containers) for Deployment
+				Kubernetes_WorkerNode1
+				Kubernetes_WorkerNode2
+				Kubernetes_WorkerNode3  				
+			
+			
+			t2.micro --> 1GB/1CPU
+			
+			t2.medium --> 4GB RAM/2 CPUs
+				Jenkins Container 
+				Jenkins Build Environments
+				
+				
+				
+				
+				
+			Jenkins_Master & Slave Communication is based on SSH Connection :
+			
+				Host_Name 
+				User_Name 
+				
+				Authentication Type:
+				
+					Password Based Authentication
+					Token Based Authentication
+					Key Based Authentication
+						- Public Key / Authorized Key
+						- Private Key 						
+					Passwordless Authentication
+			
+		Create CICD Pipeline :
+		
+	
+		CICD - Pipeline Stages :
+		
+			Stage1: SCM_Checkout 
+					git clone "https://github.com/Edu-Docker-Cert/java-mvn-springbootapp.git"
+			
+			Stage2: Application_Build 
+					mvn "clean package"
+					
+						# mvn package -> compile, test, create artifacts(*.war) 
+						# mvn test 	  -> compile, test
+						# mvn compile -> compile 
+			
+			Stage3: Application Container Image Build 
+					docker Build <> .
+				
+				docker run -it -p 9090:8080 loksaieta/appsv1:v1.0		
+			
+		
+pipeline {
+    
+    agent { label 'slave1' }
+
+
+	environment {	
+		DOCKERHUB_CREDENTIALS=credentials('dockerloginid')
+	}
+	
+    stages {
+        stage('SCM Checkout') {
+            steps {
+                echo 'Perform SCM Checkout'
+				git 'https://github.com/Edu-Docker-Cert/java-mvn-springbootapp.git'
+            }
+        }
+        stage('Application Build') {
+            steps {
+                echo 'Application Build'
+                sh 'mvn clean package'
+                
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+				sh "docker build -t loksaieta/dcp-jan11-appimg:${BUILD_NUMBER} ."
+				sh 'docker image list'
+				sh "docker tag loksaieta/dcp-jan11-appimg:${BUILD_NUMBER} loksaieta/dcp-jan11-appimg:latest"
+            }
+        }
+		stage('Login2DockerHub') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}		
+		stage('Publish_to_Docker_Registry') {
+			steps {
+				sh "docker push loksaieta/dcp-jan11-appimg:latest"
+			}
+		}
+    }
+}				
+				
+				
+	Container Orchestration Tool :::
+	
+	--> docker compose 	:::
+	
+			- Docker Compose is an extension to Docker Engine.
+			- Install Docker Compose as a external package
+			- Is used to run multiple Containers as a Service.
+			- Create a manifest file using *.yaml Script
+			
+		
+	--> 3 - Tier Application Services
+	
+		- Front-End				# User Interaction 	--> C1
+			
+		- Application Layer		# Business Logics 	--> C2
+		
+		- Back-End Layer		# Data_Base			--> C3		
+	
+	
+	---> /home/devopsadmin/workspace/Edu-pipeline/ ls
+
+	
+Next :::
+		
+	- Install Docker Compose :::		https://docs.docker.com/compose/install/linux/#install-the-plugin-manually
+	
+	- Docker Compose Manifest File 
+	
+	- Execute Multiple Containers as a Service!
+	
+	
+	
+
+########################
+Day - 6  12th Jan. 2024
+########################	
+
+
+
+
+# Manual Installation of Docker Compose :::
+			
+DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+mkdir -p $DOCKER_CONFIG/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+	
+docker compose version
+
+vi docker-compose.yaml
+
+
+
+### Yaml Files are based on Keys & Values -- key:value Pairs
+
+version: '3'
+services:
+  webserv1:
+    image: "tomcat:8.0"
+    ports:
+      - 8098:8080
+  dbserv1:
+    image: "redis:alpine"
+	
+docker compose up 						# Create and Start all the Containers based on the Service Definition Manifest file
+
+docker compose down 					# Down all the Containers based on the Service Definition Manifest file
+
+
+Docker Swarm / Kubernetes
+
+	- Replicas -> 5 replicas of Containers  is the desired state
+	
+	
+		--> docker swarm / kubernetes  :::
+				- To Ensure high availabililty
+				
+				- Docker Swarm :				
+					- To Ensure high availabililty by creating replicas of containers
+					- Docker Swarm is used to handle only Docker Container 
+					- Auto-Scaling is not support in Docker Swarm 
+					- Load-Balancing is not support in Docker Swarm 
+					- Container instances can deployed in Master_Node as well as in Worker_Nodes
+
+
+	--> 3 - Tier Application Services
+	
+		- Front-End				# User Interaction 	--> C1,2,3
+			
+		- Application Layer		# Business Logics 	--> C4,5,6
+		
+		- Back-End Layer		# Data_Base			--> C7,8,9
+
+		
+					Master_Node :
+					
+						Worker_Node1,2,3
+		
+		
+		
+	docker 		# create application Images --> *.war 
+	
+	Kubernetes 	# Deploy the Images in all the available target nodes 
+	
+	Jenkins 	# Build Orchestration Tool 	
+	
+	
+	Kubernetes ::::
+	
+		- It is a Open-Source Container Orchestration Tool 
+		- Kubernetes is used to Deploy any type of Containers.
+		- It is used to ensure high availability of the Applications/services running thru Containers.
+		- Used to Ensure High Availability of Containers by creating Replicas of Containers.
+		- It supports Auto-Scaling & Load Balancing.
+		
+	Managed Services ::
+
+		AWS 	- ECS/ECR/EKS 
+		Azure 	- ACS/ACR/AKS 		
+		GCP 	- GCE/GCR/GKE
+		
+	pods --> In Kubernetes  - Pods are the Atomic unit of Scheduling	
+							- Pods are used run the containers 
+							- Pod can have one or more containers.
+		
+	Kubernetes Architecture :::
+	
+		Kubernetes_Master 			#	Schedule the pods for deployment 
+		
+			Kubernetes_WorkerNodes 	# 	Application Pods are executed in Worker_Nodes 
+									#	Target Servers 
+									
+	
+	Kubernetes Components :::
+	
+		- API Server 
+		- Scheduler
+		- ETCD 
+		- Controller Manager 
+		
+		- Kubelet 
+		- KubeProxy 
+		- CRI - Container RunTime Interface (Container-D)
+		
+		
+		
+	
+	Kubernetes Concepts/Terminologies :::
+
+		Kubernetes Control Plane 	:	# It referes to Master Node 
+		Kubernetes Cluster 			:	# Collection of Workernodes 
+		Images 
+		Containers 
+		kubeadm 
+		Pods 		
+		kubectl 
+		
+		Deployment Controller Object 
+		
+		Kubernetes Services 
+		
+			- NodePort Service 
+			
+		Volumes 
+			
+	End-to-End Pipeline! 
+		
+		
+	Install and Configure Kubernetes Master & Worker Nodes!
+	
+	
+	Namespace :::
+		- Logical Partition of the Kubernetes Cluster
+		
+		
+	
+	Kubernetes_Master 
+	
+		Kubernetes_Master1							AWS 
+			Cluster1 :								Region1		
+				Kubernetes Worker_Node1
+				Kubernetes Worker_Node2
+				Kubernetes Worker_Node3
+				Kubernetes Worker_Node4
+		
+			Cluster2 :								Region2
+				Kubernetes Worker_Node1
+				Kubernetes Worker_Node2
+				Kubernetes Worker_Node3
+				Kubernetes Worker_Node4	
+			
+		Kubernetes_Master2							Azure 
+			Cluster1 :								Region1		
+				Kubernetes Worker_Node1
+				Kubernetes Worker_Node2
+				Kubernetes Worker_Node3
+				Kubernetes Worker_Node4
+		
+			Cluster2 :								Region2
+				Kubernetes Worker_Node1
+				Kubernetes Worker_Node2
+				Kubernetes Worker_Node3
+				Kubernetes Worker_Node4		
+				
