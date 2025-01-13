@@ -450,7 +450,7 @@ Day - 3  4th Jan. 2024
 	
 	OS Based Images 
 	
-	WAB Based Images 
+	WAS Based Images 
 	
 	
 	Docker Networking :
